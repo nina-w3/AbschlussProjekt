@@ -64,7 +64,7 @@
 		4AC06DF31F73739100CCBEF6 /* kanji.patt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = kanji.patt; path = ../kanji.patt; sourceTree = "<group>"; };
 		CE3D63BA26F20070007A7FBA /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libc++.1.tbd"; sourceTree = DEVELOPER_DIR; };
 		CE3D63C126F20351007A7FBA /* TTSManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTSManager.h; sourceTree = "<group>"; };
-		CE3D63C326F20398007A7FBA /* SoundManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SoundManager.h; path = "../../../../../Desktop/artoolkitX/Examples/Square tracking example/iOS/SoundManager.h"; sourceTree = "<group>"; };
+		CE3D63C326F20398007A7FBA /* SoundManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SoundManager.h; sourceTree = "<group>"; };
 		CE3D63C426F203A8007A7FBA /* TTSManager.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = TTSManager.m; sourceTree = "<group>"; };
 		CE3D63C626F203B2007A7FBA /* SoundManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SoundManager.cpp; sourceTree = "<group>"; };
 		CE3D63C826F203CD007A7FBA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };

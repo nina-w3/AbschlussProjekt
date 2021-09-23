@@ -12,6 +12,7 @@
 #ifndef __soundmanager_h__
 #define __soundmanager_h__
 
+//#import <UIKit/UIKit.h>
 #include <ARX/ARController.h>
 #include <ARX/ARG/arg.h>
 #include <stdint.h>
@@ -23,10 +24,10 @@ extern "C" {
 #endif
 
 
-int drawLoadModel(const char *path);
-void drawSetModel(int modelIndex, bool visible, float pose[16]); // Notwendig warum?
-void sound(void);
-void voice(void);
+//int drawLoadModel(const char *path);
+//void drawSetModel(int modelIndex, bool visible, float pose[16]); // Notwendig warum?
+//void sound(int markerUID);
+//void voice(int markerUID);
 
 #ifdef __cplusplus
 }

@@ -11,5 +11,9 @@
 
 
 void tts(void);
+int drawLoadModel(const char *path);
+void drawSetModel(int modelIndex, bool visible, float pose[16]); // Notwendig warum?
+void sound(int markerUID);
+void voice(int markerUID);
 
 #endif /* TTSManager_h */

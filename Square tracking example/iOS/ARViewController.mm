@@ -12,7 +12,7 @@
 #import <string>
 #import <ARX/ARController.h>
 #import "TTSManager.h"
-#import "SoundManager.h"
+//#import "SoundManager.h"
 #import <AVFoundation/AVFoundation.h>
 #import <Foundation/Foundation.h>
 #import "artoolkitX Square Tracking Example-Bridging-Header.h"
@@ -46,6 +46,7 @@ static const int markerCount = 2;
     float projection[16];
     int markerIDs[markerCount];
     int markerModelIDs[markerCount];
+
 
   
     
@@ -180,19 +181,19 @@ markerIDs[i] = -1;
     char buf[MAXPATHLEN];
     ARLOGe("CWD is '%s'.\n", getcwd(buf, sizeof(buf)));
 #endif
-    int j = 0;
+    int markerName = 0;
     char *resourcesDir = arUtilGetResourcesDirectoryPath(AR_UTIL_RESOURCES_DIRECTORY_BEHAVIOR_BEST);
     for (int i = 0; i < markerCount; i++) {
+        /*
+         Marker werden in einer Schleife hinzuaddiert, das i wird zur UID des Markers, ist  unabhängig von dem Namen des Markers, also die UID 0 kann trotzdem zum Marker 85345 gehören. Vorteil könnte daher sein, ich lade mir die Marker von der Datenbank, beschränke auf X Marker laden, und die haben dann immer den Zahlenbereich von 0 bzw 1 bis x.
+         */
        // std::string markerConfig = "single;" + std::string(resourcesDir) + '/' + markers[i].name + ';' + std::to_string(markers[i].height);
         
-        std::string markerConfig = "single_barcode;"+ std::to_string(j) + ";80";
-        j = j+5;
-        // Hardcode Marker eingegeben:
-      //  std::string markerConfig1 = "single_barcode;0;80";
-      //  std::string markerConfig2 = "single_barcode;855555555;80";
+        std::string markerConfig = "single_barcode;"+ std::to_string(markerName) + ";80";
+        markerName +=855555; //spasseshalber mal bissl mehr, damit auch der Name von der UID abweicht
+
         markerIDs[i] = arController->addTrackable(markerConfig);
         NSLog(@"Der wert von MarkerIDs = %x\n", markerIDs[i]);
-        NSLog(@"Der wert von arController = %x\n", arController);
         if (markerIDs[i] == -1) {
             ARLOGe("Error adding marker.\n");
             return;
@@ -268,34 +269,17 @@ ARTrackable *currentMarker = nil;
             ARTrackable *marker = arController->findTrackable(markerIDs[i]);
           
             float view[16];
-           // if (marker->visible) { //Original
-            if (marker->visiblePrev) { //Whether or not the trackable was visible prior to last Update
+            if (marker->visible) { //Original
+           // if (marker->visiblePrev) { //Whether or not the trackable was visible prior to last Update
                 //arUtilPrintMtx16(marker->transformationMatrix); //bereits auskommentiert gewesen
-                
-                if (isVoiceOverRunning == 0){
-                    //der Listener feuert andauernd solange der Marker sichtbar ist, daher wird der Sound
-                    //auch immer wieder aufgerufen, was an der Stelle genau richtig ist. Jedoch für unser
-                    //Text to Speech ist das kontraproduktiv.
-                    //Abfrage notwendig. If Marker immer noch der selbe, dann gib nicht erneut voice() aus.
-                    // if entdeckterMarker != gemerkterMarker dann Sprich
-                   // if (currentmarker==marker){
-                       // voice();
-                  //  sound(); //test
-                    NSLog(@"Der wert von Ausgabe MarkerID = %x\n", markerIDs[i]);
-                }
-             
-            }
-            else{
-                if (isVoiceOverRunning == 1){
-                    UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification,
-                                                    @"This is a VoiceOver message.");
-                }
-              //  currentMarker = nil;
+                    sound(markerModelIDs[i]); //MarkerUID mitgeben
+                    voice(markerModelIDs[i]);
             }
             drawSetModel(markerModelIDs[i], marker->visible, view);
-            
+                       
         }
-        sound(); //statt draw
+        //draw();
+       // NSLog(@"BEEP!"); LÖST IMMER und andauernd AUS, EGAL OB GESICHTET ODER NICHT, abfrage ob sichtbar muss also im draw bzw sound sein
         
        
     }
