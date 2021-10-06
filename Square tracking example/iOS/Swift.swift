@@ -7,12 +7,34 @@
 //
 
 import Foundation
+import CoreAudio
+import AVFoundation
+import UIKit
 
-@objc
-class GreeterSwift : NSObject {
 
-    @objc func greet(name: String) {
-        print("Hello from Swift to \(name)")
+
+// instance variables
+let SystemSoundID = 1105
+
+@objc  class Sound_pitch : NSObject {
+    
+    let engine = AVAudioEngine()
+    let audioPlayerNode = AVAudioPlayerNode()
+    let changeAudioUnitTime = AVAudioUnitTimePitch()
+    
+    @objc func setupAudioEngine() {
+        engine.attach(self.audioPlayerNode)
+
+        engine.attach(changeAudioUnitTime)
+        engine.connect(audioPlayerNode, to: changeAudioUnitTime, format: nil)
+        engine.connect(changeAudioUnitTime, to: engine.outputNode, format: nil)
+        try? engine.start()
+        audioPlayerNode.play()
     }
+    func hitSound(value: Float) {
+        changeAudioUnitTime.pitch = value
 
+
+      //  audioPlayerNode.scheduleFile(AudioServicesPlaySystemSound(systemSoundID), at: nil, completionHandler: nil) // File is an AVAudioFile defined previously
+    }
 }

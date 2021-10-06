@@ -12,7 +12,10 @@
 #ifndef __soundmanager_h__
 #define __soundmanager_h__
 
-//#import <UIKit/UIKit.h>
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <AudioToolbox/AudioToolbox.h>
+
 #include <ARX/ARController.h>
 #include <ARX/ARG/arg.h>
 #include <stdint.h>
@@ -28,6 +31,7 @@ extern "C" {
 //void drawSetModel(int modelIndex, bool visible, float pose[16]); // Notwendig warum?
 //void sound(int markerUID);
 //void voice(int markerUID);
+//void ton();
 
 #ifdef __cplusplus
 }

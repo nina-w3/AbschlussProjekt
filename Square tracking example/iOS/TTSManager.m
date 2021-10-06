@@ -9,10 +9,13 @@
 #include "TTSManager.h"
 #include <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
+#import "artoolkitX Square Tracking Example-Bridging-Header.h"
+//#import "AppDelegate.h"
 
 /// Gewuenscht ist "VoiceOver", wenn das nicht eingeschaltet ist, dann TTS
 
 #include "AVFoundation/AVFoundation.h"
+#import <AudioToolbox/Audiotoolbox.h>
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
@@ -56,16 +59,17 @@ static bool gModelLoaded[Models_MAX] = {false};
 static float gModelPoses[Models_MAX][16];
 static bool gModelVisbilities[Models_MAX];
 
-int currentMarkerUID = -1;
-BOOL isVoiceOverRunning = (UIAccessibilityIsVoiceOverRunning() ? 1 : 0);
+int currentMarkerUID = -1; //definitiv nicht im MarkerAnzeigeWErt-Bereich. Initialisieren der App damit nicht beim Starten die DAten vom ketzten erkannten Marker angesagt werden. Errormeldung falls Marker nicht geladen wurden
+BOOL isVoiceOverRunning = (UIAccessibilityIsVoiceOverRunning() ? 1 : 0); //Ternäre abfrage
 
 NSString *str = @"Voice Over ist aus, Marker sichtbar ";
 
 //static void drawCube(float viewProjection[16], float pose[16]);
-
+// Pfad wird mit gegeben, wieso auch immer, da er ja scheinbar ignoriert werden soll.
+//die Schleife geht 32 mal durch(? und warum hard 32) schaut ob das hier erstellte gModel, stellt alle gModelLoaded auf true und gibt die Anzahl der geladenen zurück
 int drawLoadModel(const char *path)
 {
-    // Ignore path, we'll always draw a cube. -- Notwendig, aber wieso?
+    // Ignore path, we'll always draw a cube.
     for (int i = 0; i < Models_MAX; i++) {
         if (!gModelLoaded[i]) {
             gModelLoaded[i] = true;
@@ -75,12 +79,14 @@ int drawLoadModel(const char *path)
     return -1;
 }
 
+
 void drawSetModel(int modelIndex, bool visible, float pose[16])
 {
-    
+    //Abbruch wenn zu klein oder zu gross
     if (modelIndex < 0 || modelIndex >= Models_MAX) return;
     if (!gModelLoaded[modelIndex]) return;
     
+    //ab hier der sichtbare Marker wird auf visible gesetzt.
     gModelVisbilities[modelIndex] = visible;
     if (visible)
         mtxLoadMatrixf(&(gModelPoses[modelIndex][0]), pose);
@@ -94,9 +100,9 @@ void sound(int markerUID)
         if (gModelLoaded[i] && gModelVisbilities[i]) {
           
            // AudioServicesPlayAlertSound(kSystemSoundID_Vibrate); //wenn Sound ausgestellt ist am Iphone
-            AudioServicesPlayAlertSound(1105); // Vibriert auch ohne die Zeile davor
+            AudioServicesPlayAlertSound(1105);// Vibriert auch ohne die Zeile davor
+          
             //NSLog(@"MarkerUID= %x\n", markerUID);
-       
         }
     }
 }
@@ -109,7 +115,7 @@ void voice(int markerUID)
             if (markerUID != currentMarkerUID){
                 currentMarkerUID = markerUID;
                 
-                std::string sprich = "Dieser Marker hat die UID "+ std::to_string(markerUID);
+               // std::string sprich = "Dieser Marker hat die UID "+ std::to_string(markerUID);
                 NSString *theAnswer = [NSString stringWithFormat:@"Dieser Marker hat die ID %d", markerUID];
                 
                 NSLog(@"Marker %d\n CurrentMarker %d\n",markerUID , currentMarkerUID);
@@ -132,69 +138,90 @@ void voice(int markerUID)
     }
 }
 
-//static ARG_API drawAPI = ARG_API_None;
-/*
-static bool gModelLoaded[Models_MAX] = {false};
-static float gModelPoses[Models_MAX][16];
-static bool gModelVisbilities[Models_MAX];
-NSString *str = @"Voice Over ist aus, Marker sichtbar ";
 
-//static void drawCube(float viewProjection[16], float pose[16]);
-
-
-int drawLoadModel(const char *path)
-{
-    // Ignore path, we'll always draw a cube. -- Notwendig, aber wieso?
-    for (int i = 0; i < Models_MAX; i++) {
-        if (!gModelLoaded[i]) {
-            gModelLoaded[i] = true;
-            return i;
-        }
-    }
-    return -1;
+//Funktioniert noch nicht: Ton Pitch!
+/** Das nächste Sample erzeugen */
+Float32 getNextSample() {
+    static double phase = 0;
+    phase += 6.282 * 440 / 44100;   //440 Hz bei 44.1 kHz Sample Rate
+    return sin(phase);
 }
-
-void drawSetModel(int modelIndex, bool visible, float pose[16])
-{
-    if (modelIndex < 0 || modelIndex >= Models_MAX) return;
-    if (!gModelLoaded[modelIndex]) return;
-    
-    gModelVisbilities[modelIndex] = visible;
-    if (visible)
-        mtxLoadMatrixf(&(gModelPoses[modelIndex][0]), pose);
-}
- */
-/*
- //verlaltet
-
-void tts()
-{
-    //TEXT TO SPEECH TTS
-    NSString *str = @"Voice Over ist aus, Marker sichtbar ";
-    
-    AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc]init];
-    AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:str];
-  //  [utterance setRate:0.1f];
-   // [utterance setPostUtteranceDelay:1000000];
-   [synthesizer speakUtterance:utterance];
-//utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"de-DE"];
-
-}
-
-void voice(int markerUID)
-{
-    for (int i = 0; i < Models_MAX; i++) {
-        if (gModelLoaded[i] && gModelVisbilities[i]) {
-            int currentMarkerUID = -1;
-            if (markerUID != currentMarkerUID){
-                AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc]init];
-                AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:@"Hallo Alexander"];
-                [utterance setRate:0.3f];
-                //[utterance setPostUtteranceDelay:1000000];
-                [synthesizer speakUtterance:utterance]; //Ausgabe
-                utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"de-DE"];
+/** Callback, um einen Audio-Buffer zu füllen */
+OSStatus MyRenderCallback(void* inRefCon,
+                          AudioUnitRenderActionFlags* ioActionFlags,
+                          const AudioTimeStamp* inTimeStamp,
+                          UInt32 inBusNumber,
+                          UInt32 inNumberFrames,
+                          AudioBufferList* ioData) {
+    for (int i=0; i<inNumberFrames; i++) {
+        Float32 sample = getNextSample();
+        for (int j=0; j<ioData->mNumberBuffers; j++) {
+            Float32* base = (Float32*)ioData->mBuffers[j].mData;
+            for (int k=0; k<ioData->mBuffers[j].mNumberChannels; k++) {
+               base[i * ioData->mBuffers[j].mNumberChannels + k] = sample;
             }
         }
     }
+    return 0;
 }
- */
+//@implementation AppDelegate : NSObject
+void ton() {
+    for (int i = 0; i < Models_MAX; i++) {
+         if (gModelLoaded[i] && gModelVisbilities[i]) {
+             
+    //Default Output-Komponente suchen
+    AudioComponentDescription desc;
+    desc.componentType = kAudioUnitType_Output;
+    desc.componentSubType = kAudioUnitSubType_GenericOutput;
+    desc.componentManufacturer = kAudioUnitManufacturer_Apple;
+    desc.componentFlags = 0;
+    desc.componentFlagsMask = 0;
+    AudioComponent comp = AudioComponentFindNext(NULL, &desc);
+  //  NSAssert(comp, @"Could not find default out component");
+
+    //Eine Instanz davon erzeugen
+    AudioComponentInstance outUnit;
+    OSStatus err = AudioComponentInstanceNew(comp, &outUnit);
+ //   NSAssert1(!err,@"AudioComponentInstanceNew failed with error %i",err);
+
+    //Audio-Stream-Format setzen
+    AudioStreamBasicDescription asbd;
+    asbd.mSampleRate = 44100.0;
+    asbd.mFormatID = kAudioFormatLinearPCM;
+    asbd.mFormatFlags = kAudioFormatFlagsNativeFloatPacked|kAudioFormatFlagIsNonInterleaved;
+    asbd.mBytesPerPacket = sizeof(Float32);            //noninterleaved -> Beschreibung fuer EINEN Kanal
+    asbd.mFramesPerPacket = 1;
+    asbd.mBytesPerFrame = sizeof(Float32);             //noninterleaved -> Beschreibung fuer EINEN Kanal
+    asbd.mChannelsPerFrame = 2;                        //noninterleaved -> Anzahl Bufferlisten
+    asbd.mBitsPerChannel = sizeof (Float32) * 8;
+    asbd.mReserved=0;
+
+    err = AudioUnitSetProperty (outUnit,
+                                kAudioUnitProperty_StreamFormat,
+                                kAudioUnitScope_Input,
+                                0,
+                                &asbd,
+                                sizeof(asbd));
+  //  NSAssert1(!err,@"AudioUnitSetProperty (asbd) failed with error %i",err);
+
+    //Audio Unit initialisieren
+    err = AudioUnitInitialize(outUnit);
+ //   NSAssert1(!err,@"AudioUnitInitialize failed with error %i",err);
+    //Render Callback setzen
+    AURenderCallbackStruct renderCallback;
+    memset(&renderCallback, 0, sizeof(AURenderCallbackStruct));
+    renderCallback.inputProc = MyRenderCallback;
+   // renderCallback.inputProcRefCon = self;
+    err = AudioUnitSetProperty (outUnit,
+                                kAudioUnitProperty_SetRenderCallback,
+                                kAudioUnitScope_Input,
+                                0,
+                                &renderCallback,
+                                sizeof(AURenderCallbackStruct));
+  //  NSAssert1(!err,@"AudioUnitSetProperty (callback) failed with error %i",err);
+    //Los geht's!
+    AudioOutputUnitStart(outUnit);
+         }
+}
+}
+//@end

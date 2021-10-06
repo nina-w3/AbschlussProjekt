@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4A05E10F1FDC1D6000C8B8B3 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A05E10E1FDC1D6000C8B8B3 /* MobileCoreServices.framework */; };
 		4A267D212058C437009B1032 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A267D202058C436009B1032 /* opencv2.framework */; };
 		4A70A0F51DC7F425005A4F69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A70A0F41DC7F425005A4F69 /* Assets.xcassets */; };
 		4A70A1021DC7F580005A4F69 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A70A0E51DC7F425005A4F69 /* main.m */; };
@@ -29,14 +28,15 @@
 		4A9707911DD152D200FF507D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A9707901DD152D200FF507D /* CoreMotion.framework */; };
 		4AC06DF41F73739100CCBEF6 /* hiro.patt in Resources */ = {isa = PBXBuildFile; fileRef = 4AC06DF21F73739100CCBEF6 /* hiro.patt */; };
 		4AC06DF51F73739100CCBEF6 /* kanji.patt in Resources */ = {isa = PBXBuildFile; fileRef = 4AC06DF31F73739100CCBEF6 /* kanji.patt */; };
+		CE36257926FC9EC7005D8608 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE36257826FC9EC7005D8608 /* CoreAudio.framework */; };
+		CE36257D26FCB6AC005D8608 /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE36257C26FCB6AB005D8608 /* CoreAudioKit.framework */; };
+		CE36257F26FCBB11005D8608 /* SoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE36257E26FCBB11005D8608 /* SoundManager.m */; };
 		CE3D63BB26F20070007A7FBA /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE3D63BA26F20070007A7FBA /* libc++.1.tbd */; };
 		CE3D63C526F203A8007A7FBA /* TTSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE3D63C426F203A8007A7FBA /* TTSManager.m */; };
-		CE3D63C726F203B3007A7FBA /* SoundManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE3D63C626F203B2007A7FBA /* SoundManager.cpp */; };
 		CE40820426F3427A00C83B34 /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE40820326F3427A00C83B34 /* Swift.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4A05E10E1FDC1D6000C8B8B3 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4A267D202058C436009B1032 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../../../Source/depends/ios/Frameworks/opencv2.framework; sourceTree = "<group>"; };
 		4A70A0E11DC7F425005A4F69 /* artoolkitX Square Tracking Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "artoolkitX Square Tracking Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A70A0E51DC7F425005A4F69 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -62,11 +62,14 @@
 		4A9707901DD152D200FF507D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		4AC06DF21F73739100CCBEF6 /* hiro.patt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = hiro.patt; path = ../hiro.patt; sourceTree = "<group>"; };
 		4AC06DF31F73739100CCBEF6 /* kanji.patt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = kanji.patt; path = ../kanji.patt; sourceTree = "<group>"; };
+		CE36257626FC6A35005D8608 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreServices.framework; sourceTree = DEVELOPER_DIR; };
+		CE36257826FC9EC7005D8608 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		CE36257C26FCB6AB005D8608 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
+		CE36257E26FCBB11005D8608 /* SoundManager.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = SoundManager.m; sourceTree = "<group>"; };
 		CE3D63BA26F20070007A7FBA /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libc++.1.tbd"; sourceTree = DEVELOPER_DIR; };
 		CE3D63C126F20351007A7FBA /* TTSManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTSManager.h; sourceTree = "<group>"; };
 		CE3D63C326F20398007A7FBA /* SoundManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SoundManager.h; sourceTree = "<group>"; };
 		CE3D63C426F203A8007A7FBA /* TTSManager.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = TTSManager.m; sourceTree = "<group>"; };
-		CE3D63C626F203B2007A7FBA /* SoundManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = SoundManager.cpp; sourceTree = "<group>"; };
 		CE3D63C826F203CD007A7FBA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CE40820226F3427A00C83B34 /* artoolkitX Square Tracking Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "artoolkitX Square Tracking Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		CE40820326F3427A00C83B34 /* Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.swift; sourceTree = "<group>"; };
@@ -77,11 +80,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A05E10F1FDC1D6000C8B8B3 /* MobileCoreServices.framework in Frameworks */,
+				CE36257926FC9EC7005D8608 /* CoreAudio.framework in Frameworks */,
 				4A70A11A1DC7FADC005A4F69 /* libARX.a in Frameworks */,
 				4A70A1251DC80645005A4F69 /* libjpeg.a in Frameworks */,
 				4A70A1231DC80645005A4F69 /* libcurl.a in Frameworks */,
 				4A70A1341DC806B9005A4F69 /* AudioToolbox.framework in Frameworks */,
+				CE36257D26FCB6AC005D8608 /* CoreAudioKit.framework in Frameworks */,
 				4A70A1321DC806A9005A4F69 /* Accelerate.framework in Frameworks */,
 				4A70A12A1DC8067E005A4F69 /* AVFoundation.framework in Frameworks */,
 				4A70A1301DC806A7005A4F69 /* CoreMedia.framework in Frameworks */,
@@ -123,14 +127,14 @@
 				4A70A0E51DC7F425005A4F69 /* main.m */,
 				4A70A0E71DC7F425005A4F69 /* AppDelegate.h */,
 				4A70A0E81DC7F425005A4F69 /* AppDelegate.m */,
-				CE40820326F3427A00C83B34 /* Swift.swift */,
 				4A70A0EE1DC7F425005A4F69 /* ARViewController.h */,
 				4A70A0EF1DC7F425005A4F69 /* ARViewController.mm */,
 				CE3D63C126F20351007A7FBA /* TTSManager.h */,
 				CE3D63C426F203A8007A7FBA /* TTSManager.m */,
 				CE3D63C326F20398007A7FBA /* SoundManager.h */,
-				CE3D63C626F203B2007A7FBA /* SoundManager.cpp */,
+				CE36257E26FCBB11005D8608 /* SoundManager.m */,
 				CE40820226F3427A00C83B34 /* artoolkitX Square Tracking Example-Bridging-Header.h */,
+				CE40820326F3427A00C83B34 /* Swift.swift */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -187,7 +191,8 @@
 		4A70A1261DC80678005A4F69 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4A05E10E1FDC1D6000C8B8B3 /* MobileCoreServices.framework */,
+				CE36257C26FCB6AB005D8608 /* CoreAudioKit.framework */,
+				CE36257826FC9EC7005D8608 /* CoreAudio.framework */,
 				CE3D63BA26F20070007A7FBA /* libc++.1.tbd */,
 				4A70A1331DC806B9005A4F69 /* AudioToolbox.framework */,
 				4A70A1311DC806A9005A4F69 /* Accelerate.framework */,
@@ -198,6 +203,7 @@
 				CE3D63C826F203CD007A7FBA /* AudioToolbox.framework */,
 				4A70A1291DC8067E005A4F69 /* AVFoundation.framework */,
 				4A70A1271DC80678005A4F69 /* libsqlite3.tbd */,
+				CE36257626FC6A35005D8608 /* CoreServices.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -280,9 +286,9 @@
 			files = (
 				4A70A1031DC7F580005A4F69 /* AppDelegate.m in Sources */,
 				CE40820426F3427A00C83B34 /* Swift.swift in Sources */,
-				CE3D63C726F203B3007A7FBA /* SoundManager.cpp in Sources */,
 				4A70A1041DC7F580005A4F69 /* ARViewController.mm in Sources */,
 				CE3D63C526F203A8007A7FBA /* TTSManager.m in Sources */,
+				CE36257F26FCBB11005D8608 /* SoundManager.m in Sources */,
 				4A70A1021DC7F580005A4F69 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,7 +369,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = ../../../SDK/include;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = (
 					../../../SDK/lib,
 					../../../Source/depends/ios/lib,
@@ -426,7 +432,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = ../../../SDK/include;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = (
 					../../../SDK/lib,
 					../../../Source/depends/ios/lib,
@@ -445,12 +451,14 @@
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 47266PTTH3;
 				HEADER_SEARCH_PATHS = (
 					"${inherited}",
 					"$(PROJECT_DIR)/include",
 				);
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -474,12 +482,14 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 47266PTTH3;
 				HEADER_SEARCH_PATHS = (
 					"${inherited}",
 					"$(PROJECT_DIR)/include",
 				);
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

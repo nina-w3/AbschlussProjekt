@@ -1,6 +1,32 @@
 //
 //  ARViewController.mm
 
+/*
+ TODO aus dem Antrag (+ = erledigt)
+ +Screensaver ausschalten
+ +Gesture TabTAb
+ -    muss noch korrekt verbunden werden, Technik steht
+ +Voiceover
+ +TTS
+ +Sound
+ -Datenbank
+ schwammig:
+ -Leitsystem - Meter?
+ 
+ optional
+ -stop()? bei Voiceover bereits implementiert einmal mit 2 finger tippen.
+ 
+ Anwendungsfälle:
+ -schneller weiter zu 2. Marker "stoppen"
+ -Marker ignorieren
+ -Abbrechen der Ansage: mit Geste Stoppen
+ >1 Marker in Sichtbereich: Ansage "n. Marker in Sicht"
+ 
+ 
+ vielleicht interessant:
+ Sleep, delay, timer
+ */
+
 
 #import "ARViewController.h"
 //#import <OpenGLES/ES2/glext.h>
@@ -12,11 +38,11 @@
 #import <string>
 #import <ARX/ARController.h>
 #import "TTSManager.h"
-//#import "SoundManager.h"
+#import "SoundManager.h"
 #import <AVFoundation/AVFoundation.h>
 #import <Foundation/Foundation.h>
 #import "artoolkitX Square Tracking Example-Bridging-Header.h"
-
+#import "AppDelegate.h"
 
 
 struct marker {
@@ -44,12 +70,9 @@ static const int markerCount = 2;
     bool contextWasUpdated;
     int32_t viewport[4];
     float projection[16];
-    int markerIDs[markerCount];
+    int markerUID[markerCount];
     int markerModelIDs[markerCount];
-
-
-  
-    
+   
 }
 //Alle Properties sowie Methodenparameter und -rückgabewerte, die in Objective-C deklariert sind, werden standardmäßig in Swift als Implicity Unwrapped Optionals importiert. D.h., wenn die Parameter nicht explizit mit nonnull gekennzeichnet sind, werden sie von Swift als optional und nicht als Pfichtwert verstanden.
 //Property fuer den Context
@@ -67,8 +90,23 @@ static const int markerCount = 2;
 //viewdidLoad methode is called after the view controller has loaded its view hierarchy into memory. This method is called regardless of whether the view hierarchy was loaded from a nib file or created programmatically in the loadView() method. You usually override this method to perform additional initialization on views that were loaded from nib files.
 - (void)viewDidLoad
 {
+
     //super methode wird aufgerufen, und dann Ergänzungen angehängt
     [super viewDidLoad];
+    
+    //Screensaver ausschalten - wird nicht mehr dunkel
+    [[UIApplication sharedApplication] setIdleTimerDisabled: YES];
+//    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+//    tapGesture.numberOfTapsRequired = 2;
+//    [self.view addGestureRecognizer:tapGesture];
+////    [tapGesture release];
+   
+    //Gesture
+    UITapGestureRecognizer *tapGesture =
+      [[UITapGestureRecognizer alloc] initWithTarget:self
+                                              action:@selector(handleTapGesture:)];
+    tapGesture.numberOfTapsRequired = 2;
+    [self.view addGestureRecognizer:tapGesture];
     
 #ifdef DEBUG
     arLogLevel = AR_LOG_LEVEL_DEBUG;
@@ -83,7 +121,7 @@ static const int markerCount = 2;
     contextWasUpdated = false;
     //hier werden alle MarkerIDS bzw MArkerModelIDs auf -1 gesetzt.
     for (int i = 0; i < markerCount; i++)
-markerIDs[i] = -1;
+        markerUID[i] = -1;
     for (int i = 0; i < markerCount; i++) markerModelIDs[i] = -1;
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
@@ -102,7 +140,6 @@ markerIDs[i] = -1;
 //Kameraausrichtung,
 - (void)viewDidLayoutSubviews
 {
-    
     GLKView *view = (GLKView *)self.view;
     //Erstellung von einem Pointer view vom Typ GLKView. mit gecasteter Zuweisung der View von UIViewController
     [view bindDrawable];
@@ -127,8 +164,7 @@ markerIDs[i] = -1;
             break;
     }
     contextWasUpdated = true;
-    
-    
+
 }
 //Alles zurücksetzen
 - (void)dealloc
@@ -154,7 +190,6 @@ markerIDs[i] = -1;
         }
         self.context = nil;
     }
-
     // Dispose of any resources that can be recreated.
 }
 
@@ -163,7 +198,6 @@ markerIDs[i] = -1;
 }
 
 - (void)setupGL //ARController wird initialisiert+ Marker hinzugefügt,SOwie Art/Größe der Marker angegeben
-
 {
     char vconf[] = "-preset=720p";
     
@@ -181,7 +215,7 @@ markerIDs[i] = -1;
     char buf[MAXPATHLEN];
     ARLOGe("CWD is '%s'.\n", getcwd(buf, sizeof(buf)));
 #endif
-    int markerName = 0;
+    int markerAnzeigeWert = 0; //theoretisch Datenbank abfrage, lade die Marker aus dem Bereich "Stuttgart" aus der DAtenbank
     char *resourcesDir = arUtilGetResourcesDirectoryPath(AR_UTIL_RESOURCES_DIRECTORY_BEHAVIOR_BEST);
     for (int i = 0; i < markerCount; i++) {
         /*
@@ -189,12 +223,12 @@ markerIDs[i] = -1;
          */
        // std::string markerConfig = "single;" + std::string(resourcesDir) + '/' + markers[i].name + ';' + std::to_string(markers[i].height);
         
-        std::string markerConfig = "single_barcode;"+ std::to_string(markerName) + ";80";
-        markerName +=855555; //spasseshalber mal bissl mehr, damit auch der Name von der UID abweicht
+        std::string markerConfig = "single_barcode;"+ std::to_string(markerAnzeigeWert) + ";80"; //size aus der Datenbankbzw alles aus der DAtenbank nehmen.
+        markerAnzeigeWert +=855555; //spasseshalber mal bissl mehr, damit auch der Name von der UID abweicht
 
-        markerIDs[i] = arController->addTrackable(markerConfig);
-        NSLog(@"Der wert von MarkerIDs = %x\n", markerIDs[i]);
-        if (markerIDs[i] == -1) {
+        markerUID[i] = arController->addTrackable(markerConfig);
+        NSLog(@"Der wert von MarkerIDs = %x\n", markerUID[i]);
+        if (markerUID[i] == -1) {
             ARLOGe("Error adding marker.\n");
             return;
         }
@@ -218,7 +252,6 @@ markerIDs[i] = -1;
         arController->shutdown();
         delete arController;
     }
-
 }
 
 #pragma mark - GLKView and GLKViewController delegate methods
@@ -235,9 +268,9 @@ markerIDs[i] = -1;
             return;
         }
     }
-
 }
 ARTrackable *currentMarker = nil;
+
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
@@ -266,7 +299,7 @@ ARTrackable *currentMarker = nil;
         for (int i = 0; i < markerCount; i++) {
             BOOL isVoiceOverRunning = (UIAccessibilityIsVoiceOverRunning() ? 1 : 0);
             // Find the marker for the given marker ID.
-            ARTrackable *marker = arController->findTrackable(markerIDs[i]);
+            ARTrackable *marker = arController->findTrackable(markerUID[i]);
           
             float view[16];
             if (marker->visible) { //Original
@@ -274,17 +307,32 @@ ARTrackable *currentMarker = nil;
                 //arUtilPrintMtx16(marker->transformationMatrix); //bereits auskommentiert gewesen
                     sound(markerModelIDs[i]); //MarkerUID mitgeben
                     voice(markerModelIDs[i]);
+                    //ton();
             }
             drawSetModel(markerModelIDs[i], marker->visible, view);
-                       
         }
         //draw();
-       // NSLog(@"BEEP!"); LÖST IMMER und andauernd AUS, EGAL OB GESICHTET ODER NICHT, abfrage ob sichtbar muss also im draw bzw sound sein
-        
-       
     }
 }
 
+//The event handling method
+- (void)handleTapGesture:(UITapGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateRecognized) {
+        // handling code
+        NSLog(@"TAP TAP");
+      //  voice(markerModelIDs[1]);
+       //Voiceover verdeckt diese GEste
+        AVSpeechUtterance *utterance;
+        utterance = [AVSpeechUtterance speechUtteranceWithString:@"Hallo"];
+        
+        AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc]init];
+        [utterance setRate:0.5f];
+        //[utterance setPostUtteranceDelay:1000000];
+        [synthesizer speakUtterance:utterance]; //Ausgabe
+        utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"de-DE"];
+        
+    }
+}
 @end
 
 

@@ -6,7 +6,6 @@
 //  Copyright © 2021 artoolkit.org. All rights reserved.
 //
 
-#include "SoundManager.h"
 //#include "AVFoundation/AVFoundation.h"
 //#import <Foundation/Foundation.h>
 //#import <UIKit/UIKit.h>
