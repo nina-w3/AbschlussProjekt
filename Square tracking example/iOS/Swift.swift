@@ -38,3 +38,9 @@ let SystemSoundID = 1105
       //  audioPlayerNode.scheduleFile(AudioServicesPlaySystemSound(systemSoundID), at: nil, completionHandler: nil) // File is an AVAudioFile defined previously
     }
 }
+func hitSound2(value: Float) {
+  
+
+
+  //  audioPlayerNode.scheduleFile(AudioServicesPlaySystemSound(systemSoundID), at: nil, completionHandler: nil) // File is an AVAudioFile defined previously
+}

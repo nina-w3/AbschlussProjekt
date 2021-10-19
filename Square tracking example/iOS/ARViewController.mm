@@ -45,6 +45,7 @@
 #import "AppDelegate.h"
 
 
+
 struct marker {
     const char *name;
     float height;
@@ -70,8 +71,10 @@ static const int markerCount = 2;
     bool contextWasUpdated;
     int32_t viewport[4];
     float projection[16];
-    int markerUID[markerCount];
+//    int markerUID[sizeof csvArray];
     int markerModelIDs[markerCount];
+    
+    
    
 }
 //Alle Properties sowie Methodenparameter und -rückgabewerte, die in Objective-C deklariert sind, werden standardmäßig in Swift als Implicity Unwrapped Optionals importiert. D.h., wenn die Parameter nicht explizit mit nonnull gekennzeichnet sind, werden sie von Swift als optional und nicht als Pfichtwert verstanden.
@@ -79,6 +82,10 @@ static const int markerCount = 2;
 //TODO: Eventuell auskommentieren, Grafischer Content. (GL)
 //EaGLContext *context //Deklaration einer Pointervariablen, Pointer zu einem EAGLContext
 @property (strong, nonatomic) EAGLContext *context;
+@property (strong, nonatomic) FIRDatabaseReference *ref;
+
+
+
 // Methoden oder Parameter
 - (void)setupGL;
 - (void)tearDownGL;
@@ -87,26 +94,35 @@ static const int markerCount = 2;
 //Implementierung des Inferface
 @implementation ARViewController
 
+
+
 //viewdidLoad methode is called after the view controller has loaded its view hierarchy into memory. This method is called regardless of whether the view hierarchy was loaded from a nib file or created programmatically in the loadView() method. You usually override this method to perform additional initialization on views that were loaded from nib files.
+
 - (void)viewDidLoad
 {
-
     //super methode wird aufgerufen, und dann Ergänzungen angehängt
     [super viewDidLoad];
     
     //Screensaver ausschalten - wird nicht mehr dunkel
     [[UIApplication sharedApplication] setIdleTimerDisabled: YES];
+    
+
+
 //    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
 //    tapGesture.numberOfTapsRequired = 2;
 //    [self.view addGestureRecognizer:tapGesture];
 ////    [tapGesture release];
    
-    //Gesture
-    UITapGestureRecognizer *tapGesture =
-      [[UITapGestureRecognizer alloc] initWithTarget:self
-                                              action:@selector(handleTapGesture:)];
+    //Gesture TTS
+    //doppelTap
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     tapGesture.numberOfTapsRequired = 2;
     [self.view addGestureRecognizer:tapGesture];
+    
+    //Swipe
+    UISwipeGestureRecognizer * swipeLeft=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeLeft:)];
+    swipeLeft.direction=UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:swipeLeft];
     
 #ifdef DEBUG
     arLogLevel = AR_LOG_LEVEL_DEBUG;
@@ -137,6 +153,8 @@ static const int markerCount = 2;
     [self setupGL];
     
 }
+
+
 //Kameraausrichtung,
 - (void)viewDidLayoutSubviews
 {
@@ -174,7 +192,26 @@ static const int markerCount = 2;
     if ([EAGLContext currentContext] == self.context) {
         [EAGLContext setCurrentContext:nil];
     }
+//    [[_ref child:@"Marker"] removeObserverWithHandle:_refHandle];
 }
+/*
+-(void)configureDatabase{
+
+    _ref = [[FIRDatabase database] reference];
+}
+
+-(UITableViewCell *)tableView:(UITableView*)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath:(nonnull NSIndexPath *)indexPath{
+    UITableViewCell *cell = [_clientTable dequeuReusableCellWithIdentifierer:@"tableViewCell" forIndexPath:indexPath];
+    FIRDataSnapshot *messageSnapshot = _messages[indexPath.row];
+    NSDictionary<NSString *, NSString *> *message = messageSnapshot.value;
+    NSString *Size = message[MessageFieldssize];
+    NSString *TextDe = message[MessageFieldsTextDe];
+    NSString *TextEn = message[MessageFieldsTextEn];
+    cell.textLabel.text = [NSString stringWithString:TextDe];
+    
+}
+ */
+ 
 //wenn Memorywarnung, alles zurück!
 - (void)didReceiveMemoryWarning
 {
@@ -196,8 +233,14 @@ static const int markerCount = 2;
 - (BOOL)prefersStatusBarHidden {
     return YES;
 }
+NSString *sourceFileString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"MarkerDaten" ofType:@"csv"] encoding:NSUTF8StringEncoding error:nil];
+//alles in sourcefilestring drin, ohne Umbruch usw
 
-- (void)setupGL //ARController wird initialisiert+ Marker hinzugefügt,SOwie Art/Größe der Marker angegeben
+NSMutableArray *csvArray = [[NSMutableArray alloc] init];
+int markerUID[sizeof csvArray];
+    
+
+- (void)setupGL //ARController wird initialisiert+ Marker hinzugefügt,Sowie Art/Größe der Marker angegeben
 {
     char vconf[] = "-preset=720p";
     
@@ -215,17 +258,57 @@ static const int markerCount = 2;
     char buf[MAXPATHLEN];
     ARLOGe("CWD is '%s'.\n", getcwd(buf, sizeof(buf)));
 #endif
-    int markerAnzeigeWert = 0; //theoretisch Datenbank abfrage, lade die Marker aus dem Bereich "Stuttgart" aus der DAtenbank
-    char *resourcesDir = arUtilGetResourcesDirectoryPath(AR_UTIL_RESOURCES_DIRECTORY_BEHAVIOR_BEST);
-    for (int i = 0; i < markerCount; i++) {
+   // int markerId = 0; //theoretisch Datenbank abfrage, lade die Marker aus dem Bereich "Stuttgart" aus der DAtenbank
+ //   char *resourcesDir = arUtilGetResourcesDirectoryPath(AR_UTIL_RESOURCES_DIRECTORY_BEHAVIOR_BEST);
+    
+    
+//    self.ref =[[FIRDatabase database] reference];
+//    _refHandle = [_postRef observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+//        NSDictionary *postDict =snapshot.value;
+//    }];
+    
+    //_____
+    
+//    NSString *sourceFileString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"MarkerDaten" ofType:@"csv"] encoding:NSUTF8StringEncoding error:nil];
+////alles in sourcefilestring drin, ohne Umbruch usw
+//
+//    NSMutableArray *csvArray = [[NSMutableArray alloc] init];
+//
+   csvArray = [[sourceFileString componentsSeparatedByString:@"\n"] mutableCopy];
+//alles im csvArray aufgesplittet, Zeile für Zeile z.b. "markerId;size;title;text\r"
+ 
+    
+    //das hier muss in die Schleife
+//    NSString *keysString = [csvArray objectAtIndex:0];
+//    //keysString: an der stelle des Index0 "markerId;size;title;text\r"
+//    NSArray *keysArray = [keysString componentsSeparatedByString:@";"];
+//        //keysArray splittet nun den einzelnen keysString auf nach jedem ";"
+//    [csvArray removeObjectAtIndex:0];
+    
+    //NSLog(@"TAP TAP");
+    
+    
+    //____
+    
+    for (int i = 0; i < sizeof csvArray; i++) { //wie zähl ich die elemente meines Array? eigentlich wir mir schon die Anzahl der Elemente im Debug angezeigt
         /*
          Marker werden in einer Schleife hinzuaddiert, das i wird zur UID des Markers, ist  unabhängig von dem Namen des Markers, also die UID 0 kann trotzdem zum Marker 85345 gehören. Vorteil könnte daher sein, ich lade mir die Marker von der Datenbank, beschränke auf X Marker laden, und die haben dann immer den Zahlenbereich von 0 bzw 1 bis x.
          */
        // std::string markerConfig = "single;" + std::string(resourcesDir) + '/' + markers[i].name + ';' + std::to_string(markers[i].height);
         
-        std::string markerConfig = "single_barcode;"+ std::to_string(markerAnzeigeWert) + ";80"; //size aus der Datenbankbzw alles aus der DAtenbank nehmen.
-        markerAnzeigeWert +=855555; //spasseshalber mal bissl mehr, damit auch der Name von der UID abweicht
-
+        
+        NSString *keysString = [csvArray objectAtIndex:i];
+        //keysString: an der stelle des Index0 "markerId;size;title;text\r"
+        NSArray *keysArray = [keysString componentsSeparatedByString:@";"];
+            //keysArray splittet nun den einzelnen keysString auf nach jedem ";"
+      //  [csvArray removeObjectAtIndex:i];
+        NSString *markerIdFromData = [NSString stringWithString:keysArray[0]];
+        NSString *sizeFromData = [NSString stringWithString:keysArray[1]];
+        
+        std::string markerConfig = "single_barcode;" + std::string([markerIdFromData UTF8String])+";"+ std::string([sizeFromData UTF8String]);
+       //std::string markerConfig = "single_barcode;"+ std::to_string(markerId) + ";80"; //size aus der Datenbankbzw alles aus der DAtenbank nehmen.
+      //  markerId +=855555; //spasseshalber mal bissl mehr, damit auch der Name von der UID abweicht
+        
         markerUID[i] = arController->addTrackable(markerConfig);
         NSLog(@"Der wert von MarkerIDs = %x\n", markerUID[i]);
         if (markerUID[i] == -1) {
@@ -296,7 +379,7 @@ ARTrackable *currentMarker = nil;
         arController->drawVideo(0);
 
         // Look for markers, and draw on each found one.
-        for (int i = 0; i < markerCount; i++) {
+        for (int i = 0; i < sizeof csvArray ; i++) {
             BOOL isVoiceOverRunning = (UIAccessibilityIsVoiceOverRunning() ? 1 : 0);
             // Find the marker for the given marker ID.
             ARTrackable *marker = arController->findTrackable(markerUID[i]);
@@ -305,7 +388,7 @@ ARTrackable *currentMarker = nil;
             if (marker->visible) { //Original
            // if (marker->visiblePrev) { //Whether or not the trackable was visible prior to last Update
                 //arUtilPrintMtx16(marker->transformationMatrix); //bereits auskommentiert gewesen
-                    sound(markerModelIDs[i]); //MarkerUID mitgeben
+                    sound(); //MarkerUID mitgeben
                     voice(markerModelIDs[i]);
                     //ton();
             }
@@ -316,6 +399,7 @@ ARTrackable *currentMarker = nil;
 }
 
 //The event handling method
+
 - (void)handleTapGesture:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateRecognized) {
         // handling code
@@ -333,7 +417,31 @@ ARTrackable *currentMarker = nil;
         
     }
 }
+
+- (void)swipeLeft:(UITapGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateRecognized) {
+        // handling code
+        NSLog(@"Swipe left");
+        AVSpeechUtterance *utterance;
+        utterance = [AVSpeechUtterance speechUtteranceWithString:@"SWIPE LEFT"];
+        
+        AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc]init];
+        [utterance setRate:0.5f];
+        //[utterance setPostUtteranceDelay:1000000];
+        [synthesizer speakUtterance:utterance]; //Ausgabe
+        utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"de-DE"];
+    }
+}
+
+//VO Gesture geht nicht wieso auch immer
+
+-(BOOL)accessibilityScroll:(UIAccessibilityScrollDirection)direction {
+    if (direction == UIAccessibilityScrollDirectionRight){
+        NSLog(@"VOSwipe right");
+    }
+    else if (direction == UIAccessibilityScrollDirectionLeft){
+        NSLog(@"VOSwipe left");
+    }
+    return YES;
+}
 @end
-
-
-

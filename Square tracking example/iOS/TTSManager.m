@@ -94,15 +94,12 @@ void drawSetModel(int modelIndex, bool visible, float pose[16])
 }
 
 
-void sound(int markerUID)
+void sound()
 {
    for (int i = 0; i < Models_MAX; i++) {
         if (gModelLoaded[i] && gModelVisbilities[i]) {
-          
            // AudioServicesPlayAlertSound(kSystemSoundID_Vibrate); //wenn Sound ausgestellt ist am Iphone
             AudioServicesPlayAlertSound(1105);// Vibriert auch ohne die Zeile davor
-          
-            //NSLog(@"MarkerUID= %x\n", markerUID);
         }
     }
 }

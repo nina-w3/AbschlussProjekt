@@ -1,0 +1,6 @@
+framework module Pods_artoolkitX_Square_Tracking_Example {
+  umbrella header "Pods-artoolkitX Square Tracking Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

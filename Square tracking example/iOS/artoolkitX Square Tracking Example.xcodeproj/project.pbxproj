@@ -28,15 +28,23 @@
 		4A9707911DD152D200FF507D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A9707901DD152D200FF507D /* CoreMotion.framework */; };
 		4AC06DF41F73739100CCBEF6 /* hiro.patt in Resources */ = {isa = PBXBuildFile; fileRef = 4AC06DF21F73739100CCBEF6 /* hiro.patt */; };
 		4AC06DF51F73739100CCBEF6 /* kanji.patt in Resources */ = {isa = PBXBuildFile; fileRef = 4AC06DF31F73739100CCBEF6 /* kanji.patt */; };
+		81306C76A3A0AA0265B58E22 /* Pods_artoolkitX_Square_Tracking_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B6374102BEFE44C3A269649 /* Pods_artoolkitX_Square_Tracking_Example.framework */; };
 		CE36257926FC9EC7005D8608 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE36257826FC9EC7005D8608 /* CoreAudio.framework */; };
 		CE36257D26FCB6AC005D8608 /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE36257C26FCB6AB005D8608 /* CoreAudioKit.framework */; };
 		CE36257F26FCBB11005D8608 /* SoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE36257E26FCBB11005D8608 /* SoundManager.m */; };
+		CE36E8BA271EE3F100E0FCA8 /* MarkerDaten.csv in Resources */ = {isa = PBXBuildFile; fileRef = CE36E8B9271EE3F100E0FCA8 /* MarkerDaten.csv */; };
 		CE3D63BB26F20070007A7FBA /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE3D63BA26F20070007A7FBA /* libc++.1.tbd */; };
 		CE3D63C526F203A8007A7FBA /* TTSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE3D63C426F203A8007A7FBA /* TTSManager.m */; };
 		CE40820426F3427A00C83B34 /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE40820326F3427A00C83B34 /* Swift.swift */; };
+		CE493F2A271D558A00EBA10A /* FirebaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE493F29271D558A00EBA10A /* FirebaseHelper.swift */; };
+		CE493F2C271D72E000EBA10A /* FirebaseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE493F2B271D72E000EBA10A /* FirebaseData.swift */; };
+		CE4C8C57270ECFDD00751485 /* GestureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4C8C56270ECFDD00751485 /* GestureViewController.swift */; };
+		CE4CF05D2719785D000BF984 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE4CF05C2719785D000BF984 /* GoogleService-Info.plist */; };
+		CE607119270D9ED4006756F2 /* Gesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE607118270D9ED4006756F2 /* Gesture.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B6374102BEFE44C3A269649 /* Pods_artoolkitX_Square_Tracking_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_artoolkitX_Square_Tracking_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A267D202058C436009B1032 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../../../Source/depends/ios/Frameworks/opencv2.framework; sourceTree = "<group>"; };
 		4A70A0E11DC7F425005A4F69 /* artoolkitX Square Tracking Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "artoolkitX Square Tracking Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A70A0E51DC7F425005A4F69 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -62,10 +70,13 @@
 		4A9707901DD152D200FF507D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		4AC06DF21F73739100CCBEF6 /* hiro.patt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = hiro.patt; path = ../hiro.patt; sourceTree = "<group>"; };
 		4AC06DF31F73739100CCBEF6 /* kanji.patt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = kanji.patt; path = ../kanji.patt; sourceTree = "<group>"; };
+		5538A3F778D1C8349873A3D8 /* Pods-artoolkitX Square Tracking Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-artoolkitX Square Tracking Example.release.xcconfig"; path = "Target Support Files/Pods-artoolkitX Square Tracking Example/Pods-artoolkitX Square Tracking Example.release.xcconfig"; sourceTree = "<group>"; };
+		9466791D6EFB7087A9EA257A /* Pods-artoolkitX Square Tracking Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-artoolkitX Square Tracking Example.debug.xcconfig"; path = "Target Support Files/Pods-artoolkitX Square Tracking Example/Pods-artoolkitX Square Tracking Example.debug.xcconfig"; sourceTree = "<group>"; };
 		CE36257626FC6A35005D8608 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreServices.framework; sourceTree = DEVELOPER_DIR; };
 		CE36257826FC9EC7005D8608 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		CE36257C26FCB6AB005D8608 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
 		CE36257E26FCBB11005D8608 /* SoundManager.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = SoundManager.m; sourceTree = "<group>"; };
+		CE36E8B9271EE3F100E0FCA8 /* MarkerDaten.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MarkerDaten.csv; sourceTree = "<group>"; };
 		CE3D63BA26F20070007A7FBA /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libc++.1.tbd"; sourceTree = DEVELOPER_DIR; };
 		CE3D63C126F20351007A7FBA /* TTSManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTSManager.h; sourceTree = "<group>"; };
 		CE3D63C326F20398007A7FBA /* SoundManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SoundManager.h; sourceTree = "<group>"; };
@@ -73,6 +84,11 @@
 		CE3D63C826F203CD007A7FBA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CE40820226F3427A00C83B34 /* artoolkitX Square Tracking Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "artoolkitX Square Tracking Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		CE40820326F3427A00C83B34 /* Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.swift; sourceTree = "<group>"; };
+		CE493F29271D558A00EBA10A /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
+		CE493F2B271D72E000EBA10A /* FirebaseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseData.swift; sourceTree = "<group>"; };
+		CE4C8C56270ECFDD00751485 /* GestureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureViewController.swift; sourceTree = "<group>"; };
+		CE4CF05C2719785D000BF984 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CE607118270D9ED4006756F2 /* Gesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gesture.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,21 +111,33 @@
 				4A70A1281DC80678005A4F69 /* libsqlite3.tbd in Frameworks */,
 				4A70A12C1DC8068F005A4F69 /* libz.tbd in Frameworks */,
 				CE3D63BB26F20070007A7FBA /* libc++.1.tbd in Frameworks */,
+				81306C76A3A0AA0265B58E22 /* Pods_artoolkitX_Square_Tracking_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		19494F5E56CBFD93D09F0514 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9466791D6EFB7087A9EA257A /* Pods-artoolkitX Square Tracking Example.debug.xcconfig */,
+				5538A3F778D1C8349873A3D8 /* Pods-artoolkitX Square Tracking Example.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		4A70A0D81DC7F425005A4F69 = {
 			isa = PBXGroup;
 			children = (
 				4A70A1051DC7F5CF005A4F69 /* Source */,
+				CE493F28271D554500EBA10A /* Firebase */,
 				4A70A1061DC7F5D6005A4F69 /* Resources */,
 				4A70A1141DC7FA48005A4F69 /* SDK */,
 				4A70A11D1DC8061B005A4F69 /* External Libraries and Frameworks */,
 				4A70A0E21DC7F425005A4F69 /* Products */,
 				4A70A1261DC80678005A4F69 /* Frameworks */,
+				19494F5E56CBFD93D09F0514 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -129,11 +157,13 @@
 				4A70A0E81DC7F425005A4F69 /* AppDelegate.m */,
 				4A70A0EE1DC7F425005A4F69 /* ARViewController.h */,
 				4A70A0EF1DC7F425005A4F69 /* ARViewController.mm */,
+				CE4C8C56270ECFDD00751485 /* GestureViewController.swift */,
 				CE3D63C126F20351007A7FBA /* TTSManager.h */,
 				CE3D63C426F203A8007A7FBA /* TTSManager.m */,
 				CE3D63C326F20398007A7FBA /* SoundManager.h */,
 				CE36257E26FCBB11005D8608 /* SoundManager.m */,
 				CE40820226F3427A00C83B34 /* artoolkitX Square Tracking Example-Bridging-Header.h */,
+				CE607118270D9ED4006756F2 /* Gesture.swift */,
 				CE40820326F3427A00C83B34 /* Swift.swift */,
 			);
 			name = Source;
@@ -142,12 +172,14 @@
 		4A70A1061DC7F5D6005A4F69 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CE36E8B9271EE3F100E0FCA8 /* MarkerDaten.csv */,
 				4AC06DF21F73739100CCBEF6 /* hiro.patt */,
 				4AC06DF31F73739100CCBEF6 /* kanji.patt */,
 				4A70A0F41DC7F425005A4F69 /* Assets.xcassets */,
 				4A70A10A1DC7F773005A4F69 /* LaunchScreen.storyboard */,
 				4A70A10C1DC7F773005A4F69 /* Main.storyboard */,
 				4A70A0F91DC7F425005A4F69 /* Info.plist */,
+				CE4CF05C2719785D000BF984 /* GoogleService-Info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -204,8 +236,18 @@
 				4A70A1291DC8067E005A4F69 /* AVFoundation.framework */,
 				4A70A1271DC80678005A4F69 /* libsqlite3.tbd */,
 				CE36257626FC6A35005D8608 /* CoreServices.framework */,
+				0B6374102BEFE44C3A269649 /* Pods_artoolkitX_Square_Tracking_Example.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CE493F28271D554500EBA10A /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				CE493F2B271D72E000EBA10A /* FirebaseData.swift */,
+				CE493F29271D558A00EBA10A /* FirebaseHelper.swift */,
+			);
+			name = Firebase;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,9 +257,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4A70A0FC1DC7F425005A4F69 /* Build configuration list for PBXNativeTarget "artoolkitX Square Tracking Example" */;
 			buildPhases = (
+				01AB6E9B7B33212AA4351C70 /* [CP] Check Pods Manifest.lock */,
 				4A70A0DD1DC7F425005A4F69 /* Sources */,
 				4A70A0DE1DC7F425005A4F69 /* Frameworks */,
 				4A70A0DF1DC7F425005A4F69 /* Resources */,
+				C800174216AAF5B281E9C820 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -274,21 +318,78 @@
 				4A70A10F1DC7F773005A4F69 /* Main.storyboard in Resources */,
 				4A70A10E1DC7F773005A4F69 /* LaunchScreen.storyboard in Resources */,
 				4A70A0F51DC7F425005A4F69 /* Assets.xcassets in Resources */,
+				CE4CF05D2719785D000BF984 /* GoogleService-Info.plist in Resources */,
+				CE36E8BA271EE3F100E0FCA8 /* MarkerDaten.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		01AB6E9B7B33212AA4351C70 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-artoolkitX Square Tracking Example-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C800174216AAF5B281E9C820 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-artoolkitX Square Tracking Example/Pods-artoolkitX Square Tracking Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-artoolkitX Square Tracking Example/Pods-artoolkitX Square Tracking Example-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4A70A0DD1DC7F425005A4F69 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE607119270D9ED4006756F2 /* Gesture.swift in Sources */,
 				4A70A1031DC7F580005A4F69 /* AppDelegate.m in Sources */,
 				CE40820426F3427A00C83B34 /* Swift.swift in Sources */,
 				4A70A1041DC7F580005A4F69 /* ARViewController.mm in Sources */,
+				CE493F2A271D558A00EBA10A /* FirebaseHelper.swift in Sources */,
+				CE4C8C57270ECFDD00751485 /* GestureViewController.swift in Sources */,
 				CE3D63C526F203A8007A7FBA /* TTSManager.m in Sources */,
 				CE36257F26FCBB11005D8608 /* SoundManager.m in Sources */,
+				CE493F2C271D72E000EBA10A /* FirebaseData.swift in Sources */,
 				4A70A1021DC7F580005A4F69 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -446,6 +547,7 @@
 		};
 		4A70A0FD1DC7F425005A4F69 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9466791D6EFB7087A9EA257A /* Pods-artoolkitX Square Tracking Example.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_LINK_OBJC_RUNTIME = NO;
@@ -464,7 +566,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/lib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = dlmarker;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dl.dlmbn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "artoolkitX Square Tracking Example-Bridging-Header.h";
@@ -476,6 +578,7 @@
 		};
 		4A70A0FE1DC7F425005A4F69 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5538A3F778D1C8349873A3D8 /* Pods-artoolkitX Square Tracking Example.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_LINK_OBJC_RUNTIME = NO;
@@ -495,7 +598,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/lib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = dlmarker;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dl.dlmbn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "artoolkitX Square Tracking Example-Bridging-Header.h";

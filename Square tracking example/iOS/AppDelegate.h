@@ -34,6 +34,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Firebase/Firebase.h>
 #import <AudioToolbox/AudioFormat.h>
 
 

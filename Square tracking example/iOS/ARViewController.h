@@ -35,6 +35,9 @@
 
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
+#import <FirebaseDatabase/FirebaseDatabase.h>
+
+@class Sound_pitch;
 
 //@interface MyClass : MySuperClass
 @interface ARViewController : GLKViewController
