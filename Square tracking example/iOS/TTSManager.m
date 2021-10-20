@@ -13,6 +13,8 @@
 //#import "AppDelegate.h"
 
 /// Gewuenscht ist "VoiceOver", wenn das nicht eingeschaltet ist, dann TTS
+/// TODO: richtiger Text ansagen! index: 0 = markerID, 1= size, 2= title, 3=text
+/// ich muss also die info 2/3 unter abgleich MArkerID abholen.
 
 #include "AVFoundation/AVFoundation.h"
 #import <AudioToolbox/Audiotoolbox.h>
@@ -59,7 +61,7 @@ static bool gModelLoaded[Models_MAX] = {false};
 static float gModelPoses[Models_MAX][16];
 static bool gModelVisbilities[Models_MAX];
 
-int currentMarkerUID = -1; //definitiv nicht im MarkerAnzeigeWErt-Bereich. Initialisieren der App damit nicht beim Starten die DAten vom ketzten erkannten Marker angesagt werden. Errormeldung falls Marker nicht geladen wurden
+int currentMarkerId = -1; //definitiv nicht im MarkerAnzeigeWErt-Bereich. Initialisieren der App damit nicht beim Starten die DAten vom ketzten erkannten Marker angesagt werden. Errormeldung falls Marker nicht geladen wurden
 BOOL isVoiceOverRunning = (UIAccessibilityIsVoiceOverRunning() ? 1 : 0); //Ternäre abfrage
 
 NSString *str = @"Voice Over ist aus, Marker sichtbar ";
@@ -94,9 +96,9 @@ void drawSetModel(int modelIndex, bool visible, float pose[16])
 }
 
 
-void sound()
+void sound(int markerCount)
 {
-   for (int i = 0; i < Models_MAX; i++) {
+   for (int i = 0; i < markerCount; i++) {
         if (gModelLoaded[i] && gModelVisbilities[i]) {
            // AudioServicesPlayAlertSound(kSystemSoundID_Vibrate); //wenn Sound ausgestellt ist am Iphone
             AudioServicesPlayAlertSound(1105);// Vibriert auch ohne die Zeile davor
@@ -104,18 +106,18 @@ void sound()
     }
 }
 
-void voice(int markerUID)
+void voice(int markerId, int markerCount, NSString *title)
 {
-    for (int i = 0; i < Models_MAX; i++) {
+    for (int i = 0; i < markerCount; i++) {
         if (gModelLoaded[i] && gModelVisbilities[i]) {
             
-            if (markerUID != currentMarkerUID){
-                currentMarkerUID = markerUID;
+            if (markerId != currentMarkerId){
+                currentMarkerId = markerId;
                 
                // std::string sprich = "Dieser Marker hat die UID "+ std::to_string(markerUID);
-                NSString *theAnswer = [NSString stringWithFormat:@"Dieser Marker hat die ID %d", markerUID];
+                NSString *theAnswer = [NSString stringWithFormat:@"%@", title];
                 
-                NSLog(@"Marker %d\n CurrentMarker %d\n",markerUID , currentMarkerUID);
+                NSLog(@"Marker %d\n CurrentMarker %d\n",markerId , currentMarkerId);
                 if (isVoiceOverRunning == 0){
                     AVSpeechUtterance *utterance;
                     utterance = [AVSpeechUtterance speechUtteranceWithString:theAnswer];

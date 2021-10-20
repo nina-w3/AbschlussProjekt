@@ -10,7 +10,8 @@
  +TTS
  +Sound
  -Datenbank
- schwammig:
+ + aus File auslesen
+ 
  -Leitsystem - Meter?
  
  optional
@@ -55,7 +56,22 @@ static const struct marker markers[] = {
     {"kanji.patt", 80.0}
 };
 //static const int markerCount = (sizeof(markers)/sizeof(markers[0]));
-static const int markerCount = 2;
+//static const int markerCount = 2;
+
+//Einlesen der Datei
+NSString *sourceFileString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"MarkerDaten" ofType:@"csv"] encoding:NSUTF8StringEncoding error:nil];
+//alles in sourcefilestring drin, ohne Umbruch usw
+
+NSMutableArray *csvArray = [[NSMutableArray alloc] init];
+int markerCount = sizeof csvArray;
+int markerUID[sizeof csvArray];
+int markerId[sizeof csvArray];
+int markerModelIDs[sizeof csvArray];
+NSString *title[sizeof csvArray];
+NSString *text[sizeof csvArray];
+NSString *ausgabeText[1];
+NSString *ausgabeTitle[1];
+
 
 //Definition des Interface
 @interface ARViewController () {
@@ -71,11 +87,6 @@ static const int markerCount = 2;
     bool contextWasUpdated;
     int32_t viewport[4];
     float projection[16];
-//    int markerUID[sizeof csvArray];
-    int markerModelIDs[markerCount];
-    
-    
-   
 }
 //Alle Properties sowie Methodenparameter und -rückgabewerte, die in Objective-C deklariert sind, werden standardmäßig in Swift als Implicity Unwrapped Optionals importiert. D.h., wenn die Parameter nicht explizit mit nonnull gekennzeichnet sind, werden sie von Swift als optional und nicht als Pfichtwert verstanden.
 //Property fuer den Context
@@ -113,16 +124,22 @@ static const int markerCount = 2;
 //    [self.view addGestureRecognizer:tapGesture];
 ////    [tapGesture release];
    
-    //Gesture TTS
+    //Gesture TTS anlegen
     //doppelTap
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     tapGesture.numberOfTapsRequired = 2;
     [self.view addGestureRecognizer:tapGesture];
     
-    //Swipe
+    //Swipeleft
     UISwipeGestureRecognizer * swipeLeft=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeLeft:)];
     swipeLeft.direction=UISwipeGestureRecognizerDirectionLeft;
     [self.view addGestureRecognizer:swipeLeft];
+   
+    //swiperight
+    UISwipeGestureRecognizer * swipeRight=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeRight:)];
+    swipeRight.direction=UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:swipeRight];
+    
     
 #ifdef DEBUG
     arLogLevel = AR_LOG_LEVEL_DEBUG;
@@ -137,7 +154,7 @@ static const int markerCount = 2;
     contextWasUpdated = false;
     //hier werden alle MarkerIDS bzw MArkerModelIDs auf -1 gesetzt.
     for (int i = 0; i < markerCount; i++)
-        markerUID[i] = -1;
+        markerId[i] = -1;
     for (int i = 0; i < markerCount; i++) markerModelIDs[i] = -1;
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
@@ -233,12 +250,6 @@ static const int markerCount = 2;
 - (BOOL)prefersStatusBarHidden {
     return YES;
 }
-NSString *sourceFileString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"MarkerDaten" ofType:@"csv"] encoding:NSUTF8StringEncoding error:nil];
-//alles in sourcefilestring drin, ohne Umbruch usw
-
-NSMutableArray *csvArray = [[NSMutableArray alloc] init];
-int markerUID[sizeof csvArray];
-    
 
 - (void)setupGL //ARController wird initialisiert+ Marker hinzugefügt,Sowie Art/Größe der Marker angegeben
 {
@@ -258,7 +269,6 @@ int markerUID[sizeof csvArray];
     char buf[MAXPATHLEN];
     ARLOGe("CWD is '%s'.\n", getcwd(buf, sizeof(buf)));
 #endif
-   // int markerId = 0; //theoretisch Datenbank abfrage, lade die Marker aus dem Bereich "Stuttgart" aus der DAtenbank
  //   char *resourcesDir = arUtilGetResourcesDirectoryPath(AR_UTIL_RESOURCES_DIRECTORY_BEHAVIOR_BEST);
     
     
@@ -268,40 +278,21 @@ int markerUID[sizeof csvArray];
 //    }];
     
     //_____
-    
-//    NSString *sourceFileString = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"MarkerDaten" ofType:@"csv"] encoding:NSUTF8StringEncoding error:nil];
-////alles in sourcefilestring drin, ohne Umbruch usw
-//
-//    NSMutableArray *csvArray = [[NSMutableArray alloc] init];
-//
+    //Zeilenweise Befüllen des Arrays Zeile für Zeile z.b. "markerId;size;title;text\r"
    csvArray = [[sourceFileString componentsSeparatedByString:@"\n"] mutableCopy];
-//alles im csvArray aufgesplittet, Zeile für Zeile z.b. "markerId;size;title;text\r"
- 
-    
-    //das hier muss in die Schleife
-//    NSString *keysString = [csvArray objectAtIndex:0];
-//    //keysString: an der stelle des Index0 "markerId;size;title;text\r"
-//    NSArray *keysArray = [keysString componentsSeparatedByString:@";"];
-//        //keysArray splittet nun den einzelnen keysString auf nach jedem ";"
-//    [csvArray removeObjectAtIndex:0];
-    
-    //NSLog(@"TAP TAP");
-    
-    
-    //____
-    
-    for (int i = 0; i < sizeof csvArray; i++) { //wie zähl ich die elemente meines Array? eigentlich wir mir schon die Anzahl der Elemente im Debug angezeigt
+
+
+    for (int i = 0; i < markerCount; i++) {
         /*
          Marker werden in einer Schleife hinzuaddiert, das i wird zur UID des Markers, ist  unabhängig von dem Namen des Markers, also die UID 0 kann trotzdem zum Marker 85345 gehören. Vorteil könnte daher sein, ich lade mir die Marker von der Datenbank, beschränke auf X Marker laden, und die haben dann immer den Zahlenbereich von 0 bzw 1 bis x.
          */
        // std::string markerConfig = "single;" + std::string(resourcesDir) + '/' + markers[i].name + ';' + std::to_string(markers[i].height);
         
-        
+        //DATA: weiteres Aufsplitten meines Arrays, es wird in den String jeweils nur eine Zeile gesteckt, daher in der Schleife! an der stelle des Indexi "markerId;size;title;text\r"
         NSString *keysString = [csvArray objectAtIndex:i];
-        //keysString: an der stelle des Index0 "markerId;size;title;text\r"
+        // DATA: der String wird nun wieder in ein Array zerteilt. Separator ";" 0:markerID, 1: size, 2: title, 3:text
         NSArray *keysArray = [keysString componentsSeparatedByString:@";"];
-            //keysArray splittet nun den einzelnen keysString auf nach jedem ";"
-      //  [csvArray removeObjectAtIndex:i];
+        //[csvArray removeObjectAtIndex:i];
         NSString *markerIdFromData = [NSString stringWithString:keysArray[0]];
         NSString *sizeFromData = [NSString stringWithString:keysArray[1]];
         
@@ -310,7 +301,11 @@ int markerUID[sizeof csvArray];
       //  markerId +=855555; //spasseshalber mal bissl mehr, damit auch der Name von der UID abweicht
         
         markerUID[i] = arController->addTrackable(markerConfig);
-        NSLog(@"Der wert von MarkerIDs = %x\n", markerUID[i]);
+        markerId[i] = [keysArray[0] intValue];
+        title[i] = keysArray[2];
+        text[i] = keysArray[3];
+        
+        NSLog(@"Der wert von MarkerUIDs = %x\n Der Wert von markerId= %x\n", markerUID[i], markerId[i]);
         if (markerUID[i] == -1) {
             ARLOGe("Error adding marker.\n");
             return;
@@ -379,7 +374,7 @@ ARTrackable *currentMarker = nil;
         arController->drawVideo(0);
 
         // Look for markers, and draw on each found one.
-        for (int i = 0; i < sizeof csvArray ; i++) {
+        for (int i = 0; i < markerCount ; i++) {
             BOOL isVoiceOverRunning = (UIAccessibilityIsVoiceOverRunning() ? 1 : 0);
             // Find the marker for the given marker ID.
             ARTrackable *marker = arController->findTrackable(markerUID[i]);
@@ -388,8 +383,11 @@ ARTrackable *currentMarker = nil;
             if (marker->visible) { //Original
            // if (marker->visiblePrev) { //Whether or not the trackable was visible prior to last Update
                 //arUtilPrintMtx16(marker->transformationMatrix); //bereits auskommentiert gewesen
-                    sound(); //MarkerUID mitgeben
-                    voice(markerModelIDs[i]);
+                    sound(markerCount); //MarkerUID mitgeben
+                    //voice(markerModelIDs[i]);
+                    voice(markerId[i], markerCount, title[i]);
+                ausgabeTitle[0] = title[i];
+                ausgabeText[0] = text[i];
                     //ton();
             }
             drawSetModel(markerModelIDs[i], marker->visible, view);
@@ -407,7 +405,7 @@ ARTrackable *currentMarker = nil;
       //  voice(markerModelIDs[1]);
        //Voiceover verdeckt diese GEste
         AVSpeechUtterance *utterance;
-        utterance = [AVSpeechUtterance speechUtteranceWithString:@"Hallo"];
+        utterance = [AVSpeechUtterance speechUtteranceWithString:*text];
         
         AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc]init];
         [utterance setRate:0.5f];
@@ -423,7 +421,8 @@ ARTrackable *currentMarker = nil;
         // handling code
         NSLog(@"Swipe left");
         AVSpeechUtterance *utterance;
-        utterance = [AVSpeechUtterance speechUtteranceWithString:@"SWIPE LEFT"];
+    //   utterance =      [AVSpeechUtterance speechUtteranceWithString:*title];
+        utterance = [AVSpeechUtterance speechUtteranceWithString:*ausgabeTitle];
         
         AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc]init];
         [utterance setRate:0.5f];
@@ -432,6 +431,27 @@ ARTrackable *currentMarker = nil;
         utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"de-DE"];
     }
 }
+- (void)swipeRight:(UITapGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateRecognized) {
+        // handling code
+        NSLog(@"Swipe right");
+        AVSpeechUtterance *utterance;
+//        utterance =
+//        [AVSpeechUtterance speechUtteranceWithString:@"%@\n"];
+        utterance = [AVSpeechUtterance speechUtteranceWithString:*ausgabeText];
+        
+        AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc]init];
+        [utterance setRate:0.5f];
+        //[utterance setPostUtteranceDelay:1000000];
+        [synthesizer speakUtterance:utterance]; //Ausgabe
+        utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"de-DE"];
+    }
+}
+
+
+
+
+
 
 //VO Gesture geht nicht wieso auch immer
 
