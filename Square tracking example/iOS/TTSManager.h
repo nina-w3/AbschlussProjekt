@@ -10,10 +10,11 @@
 
 #import <Foundation/Foundation.h>
 
+
 void tts(void);
 int drawLoadModel(const char *path);
 void drawSetModel(int modelIndex, bool visible, float pose[16]); // Notwendig warum?
-void sound();
+void sound(bool mute);
 //void voice(int markerUID);
 void voice(int markerId, int markerCount, NSString *title);
 void ton();

@@ -10,6 +10,7 @@
 #include <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 #import "artoolkitX Square Tracking Example-Bridging-Header.h"
+#import <AudioToolbox/AudioServices.h>
 //#import "AppDelegate.h"
 
 /// Gewuenscht ist "VoiceOver", wenn das nicht eingeschaltet ist, dann TTS
@@ -96,11 +97,14 @@ void drawSetModel(int modelIndex, bool visible, float pose[16])
 }
 
 
-void sound()
+void sound(bool mute)
 {
    for (int i = 0; i < 10; i++) {
         if (gModelLoaded[i] && gModelVisbilities[i]) {
-           // AudioServicesPlayAlertSound(kSystemSoundID_Vibrate); //wenn Sound ausgestellt ist am Iphone
+            if (mute == true)
+            AudioServicesPlayAlertSound(1352 ); //wenn Sound ausgestellt ist am Iphone
+         //   AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+            else
             AudioServicesPlayAlertSound(1105);// Vibriert auch ohne die Zeile davor
         }
     }

@@ -74,6 +74,7 @@ NSString *text[Models_MAX];
 NSString *ausgabeText[1];
 NSString *ausgabeTitle[1];
 bool markerIsVisible;
+bool mute = false;
 
 
 //Definition des Interface
@@ -398,7 +399,7 @@ ARTrackable *currentMarker = nil;
                     voice(markerId[i], markerCount, title[i]);               ausgabeTitle[0] = title[i];
                 ausgabeText[0] = text[i];
                     //ton();
-                sound();
+                sound(mute);
             }
 //            else{
 //                ausgabeTitle[0] = title[0];
@@ -415,12 +416,19 @@ ARTrackable *currentMarker = nil;
 - (void)handleTapGesture:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateRecognized) {
         // handling code
-        NSLog(@"TAP TAP");
+       // NSLog(@"TAP TAP");
+        AVSpeechUtterance *utterance;
+        if (mute==false){
+            mute=true;
+            utterance = [AVSpeechUtterance speechUtteranceWithString:@"Signal aus"];
+        }
+        else{
+            mute=false;
+            utterance = [AVSpeechUtterance speechUtteranceWithString:@"Signal an"];
+            
+        }
       //  voice(markerModelIDs[1]);
        //Voiceover verdeckt diese GEste
-        AVSpeechUtterance *utterance;
-        utterance = [AVSpeechUtterance speechUtteranceWithString:*text];
-        
         AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc]init];
         [utterance setRate:0.5f];
         //[utterance setPostUtteranceDelay:1000000];
