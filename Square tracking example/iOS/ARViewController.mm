@@ -1,4 +1,4 @@
-//
+//IDEE Tap ansage ob gerade wirklich sichtbar ist. per swipe immer der letzte gesichtete. Dann muss nicht unbedingt ein Marker für kein Marker reserviert werden. also Tap: wenn marker sichbar dann ausgabetitel, ansonsten einfach standardtext eingeben. "kein Marker sichtbar"check übergabe an Sound prüfung ob gerade sichtbar ist da! wie transverieren auf diese Seite oder gesture in den Manager. Noch schöner!
 //  ARViewController.mm
 
 /*
@@ -46,6 +46,8 @@
 #import "AppDelegate.h"
 
 
+#define Models_MAX 10
+
 
 struct marker {
     const char *name;
@@ -63,14 +65,15 @@ NSString *sourceFileString = [NSString stringWithContentsOfFile:[[NSBundle mainB
 //alles in sourcefilestring drin, ohne Umbruch usw
 
 NSMutableArray *csvArray = [[NSMutableArray alloc] init];
-int markerCount = sizeof csvArray;
-int markerUID[sizeof csvArray];
-int markerId[sizeof csvArray];
-int markerModelIDs[sizeof csvArray];
-NSString *title[sizeof csvArray];
-NSString *text[sizeof csvArray];
+int markerCount = Models_MAX;
+int markerUID[Models_MAX];
+int markerId[Models_MAX];
+int markerModelIDs[Models_MAX];
+NSString *title[Models_MAX];
+NSString *text[Models_MAX];
 NSString *ausgabeText[1];
 NSString *ausgabeTitle[1];
+bool markerIsVisible;
 
 
 //Definition des Interface
@@ -87,7 +90,9 @@ NSString *ausgabeTitle[1];
     bool contextWasUpdated;
     int32_t viewport[4];
     float projection[16];
+    
 }
+
 //Alle Properties sowie Methodenparameter und -rückgabewerte, die in Objective-C deklariert sind, werden standardmäßig in Swift als Implicity Unwrapped Optionals importiert. D.h., wenn die Parameter nicht explizit mit nonnull gekennzeichnet sind, werden sie von Swift als optional und nicht als Pfichtwert verstanden.
 //Property fuer den Context
 //TODO: Eventuell auskommentieren, Grafischer Content. (GL)
@@ -153,9 +158,9 @@ NSString *ausgabeTitle[1];
     contextRotate90 = true; contextFlipH = contextFlipV = false;
     contextWasUpdated = false;
     //hier werden alle MarkerIDS bzw MArkerModelIDs auf -1 gesetzt.
-    for (int i = 0; i < markerCount; i++)
+    for (int i = 0; i < Models_MAX; i++)
         markerId[i] = -1;
-    for (int i = 0; i < markerCount; i++) markerModelIDs[i] = -1;
+    for (int i = 0; i < Models_MAX; i++) markerModelIDs[i] = -1;
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
@@ -282,7 +287,7 @@ NSString *ausgabeTitle[1];
    csvArray = [[sourceFileString componentsSeparatedByString:@"\n"] mutableCopy];
 
 
-    for (int i = 0; i < markerCount; i++) {
+    for (int i = 0; i < Models_MAX; i++) {
         /*
          Marker werden in einer Schleife hinzuaddiert, das i wird zur UID des Markers, ist  unabhängig von dem Namen des Markers, also die UID 0 kann trotzdem zum Marker 85345 gehören. Vorteil könnte daher sein, ich lade mir die Marker von der Datenbank, beschränke auf X Marker laden, und die haben dann immer den Zahlenbereich von 0 bzw 1 bis x.
          */
@@ -294,7 +299,9 @@ NSString *ausgabeTitle[1];
         NSArray *keysArray = [keysString componentsSeparatedByString:@";"];
         //[csvArray removeObjectAtIndex:i];
         NSString *markerIdFromData = [NSString stringWithString:keysArray[0]];
+        
         NSString *sizeFromData = [NSString stringWithString:keysArray[1]];
+        NSLog(@"MarkerID: %@ Markersize: %@\n",markerIdFromData, sizeFromData);
         
         std::string markerConfig = "single_barcode;" + std::string([markerIdFromData UTF8String])+";"+ std::string([sizeFromData UTF8String]);
        //std::string markerConfig = "single_barcode;"+ std::to_string(markerId) + ";80"; //size aus der Datenbankbzw alles aus der DAtenbank nehmen.
@@ -309,6 +316,7 @@ NSString *ausgabeTitle[1];
         if (markerUID[i] == -1) {
             ARLOGe("Error adding marker.\n");
             return;
+            
         }
     }
     //Marker Size
@@ -360,7 +368,7 @@ ARTrackable *currentMarker = nil;
             arController->drawVideoSettings(0, contextWidth, contextHeight, contextRotate90, contextFlipH, contextFlipV, ARVideoView::HorizontalAlignment::H_ALIGN_CENTRE, ARVideoView::VerticalAlignment::V_ALIGN_CENTRE, ARVideoView::ScalingMode::SCALE_MODE_FIT, viewport);
             // Ende Kamerabild
 
-            for (int i = 0; i < markerCount; i++) {
+            for (int i = 0; i < Models_MAX; i++) {
                 markerModelIDs[i] = drawLoadModel(NULL);
             }
             contextWasUpdated = false;
@@ -373,23 +381,29 @@ ARTrackable *currentMarker = nil;
         // Display the current video frame to the current OpenGL context.
         arController->drawVideo(0);
 
-        // Look for markers, and draw on each found one.
-        for (int i = 0; i < markerCount ; i++) {
+        // Look for markers, and react on each found one.
+        for (int i = 0; i < Models_MAX ; i++) {
             BOOL isVoiceOverRunning = (UIAccessibilityIsVoiceOverRunning() ? 1 : 0);
             // Find the marker for the given marker ID.
             ARTrackable *marker = arController->findTrackable(markerUID[i]);
-          
+    
             float view[16];
+          
             if (marker->visible) { //Original
-           // if (marker->visiblePrev) { //Whether or not the trackable was visible prior to last Update
+                markerIsVisible=true;
+           //if (marker->visiblePrev) { //Whether or not the trackable was visible prior to last Update
                 //arUtilPrintMtx16(marker->transformationMatrix); //bereits auskommentiert gewesen
-                    sound(markerCount); //MarkerUID mitgeben
+                   
                     //voice(markerModelIDs[i]);
-                    voice(markerId[i], markerCount, title[i]);
-                ausgabeTitle[0] = title[i];
+                    voice(markerId[i], markerCount, title[i]);               ausgabeTitle[0] = title[i];
                 ausgabeText[0] = text[i];
                     //ton();
+                sound();
             }
+//            else{
+//                ausgabeTitle[0] = title[0];
+//                ausgabeText[0] = text[0];
+//            }
             drawSetModel(markerModelIDs[i], marker->visible, view);
         }
         //draw();
@@ -422,6 +436,7 @@ ARTrackable *currentMarker = nil;
         NSLog(@"Swipe left");
         AVSpeechUtterance *utterance;
     //   utterance =      [AVSpeechUtterance speechUtteranceWithString:*title];
+       
         utterance = [AVSpeechUtterance speechUtteranceWithString:*ausgabeTitle];
         
         AVSpeechSynthesizer *synthesizer = [[AVSpeechSynthesizer alloc]init];
@@ -447,10 +462,6 @@ ARTrackable *currentMarker = nil;
         utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"de-DE"];
     }
 }
-
-
-
-
 
 
 //VO Gesture geht nicht wieso auch immer

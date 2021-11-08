@@ -31,11 +31,11 @@
 		CE36257926FC9EC7005D8608 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE36257826FC9EC7005D8608 /* CoreAudio.framework */; };
 		CE36257D26FCB6AC005D8608 /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE36257C26FCB6AB005D8608 /* CoreAudioKit.framework */; };
 		CE36257F26FCBB11005D8608 /* SoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE36257E26FCBB11005D8608 /* SoundManager.m */; };
-		CE36E8BA271EE3F100E0FCA8 /* MarkerDaten.csv in Resources */ = {isa = PBXBuildFile; fileRef = CE36E8B9271EE3F100E0FCA8 /* MarkerDaten.csv */; };
 		CE3D63BB26F20070007A7FBA /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE3D63BA26F20070007A7FBA /* libc++.1.tbd */; };
 		CE3D63C526F203A8007A7FBA /* TTSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE3D63C426F203A8007A7FBA /* TTSManager.m */; };
-		CE3E4CD02720263000DAE5D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A70A10B1DC7F773005A4F69 /* LaunchScreen.storyboard */; };
+		CE3E4CD227203ABA00DAE5D8 /* MarkerDaten.csv in Resources */ = {isa = PBXBuildFile; fileRef = CE3E4CD127203ABA00DAE5D8 /* MarkerDaten.csv */; };
 		CE40820426F3427A00C83B34 /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE40820326F3427A00C83B34 /* Swift.swift */; };
+		CE45120627229A8D00783D45 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE45120527229A8D00783D45 /* LaunchScreen.storyboard */; };
 		CE493F2A271D558A00EBA10A /* FirebaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE493F29271D558A00EBA10A /* FirebaseHelper.swift */; };
 		CE493F2C271D72E000EBA10A /* FirebaseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE493F2B271D72E000EBA10A /* FirebaseData.swift */; };
 		CE4C8C57270ECFDD00751485 /* GestureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4C8C56270ECFDD00751485 /* GestureViewController.swift */; };
@@ -54,7 +54,6 @@
 		4A70A0EF1DC7F425005A4F69 /* ARViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ARViewController.mm; sourceTree = "<group>"; };
 		4A70A0F41DC7F425005A4F69 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4A70A0F91DC7F425005A4F69 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4A70A10B1DC7F773005A4F69 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = LaunchScreen.storyboard; path = ../../../../../Downloads/logo.svg; sourceTree = "<group>"; };
 		4A70A10D1DC7F773005A4F69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4A70A1171DC7FAA6005A4F69 /* ARX */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ARX; sourceTree = "<group>"; };
 		4A70A1191DC7FADC005A4F69 /* libARX.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libARX.a; sourceTree = "<group>"; };
@@ -76,14 +75,15 @@
 		CE36257826FC9EC7005D8608 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		CE36257C26FCB6AB005D8608 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
 		CE36257E26FCBB11005D8608 /* SoundManager.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = SoundManager.m; sourceTree = "<group>"; };
-		CE36E8B9271EE3F100E0FCA8 /* MarkerDaten.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MarkerDaten.csv; sourceTree = "<group>"; };
 		CE3D63BA26F20070007A7FBA /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libc++.1.tbd"; sourceTree = DEVELOPER_DIR; };
 		CE3D63C126F20351007A7FBA /* TTSManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTSManager.h; sourceTree = "<group>"; };
 		CE3D63C326F20398007A7FBA /* SoundManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SoundManager.h; sourceTree = "<group>"; };
 		CE3D63C426F203A8007A7FBA /* TTSManager.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = TTSManager.m; sourceTree = "<group>"; };
 		CE3D63C826F203CD007A7FBA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		CE3E4CD127203ABA00DAE5D8 /* MarkerDaten.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = MarkerDaten.csv; path = ../../../../Nina/MarkerDaten.csv; sourceTree = "<group>"; };
 		CE40820226F3427A00C83B34 /* artoolkitX Square Tracking Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "artoolkitX Square Tracking Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		CE40820326F3427A00C83B34 /* Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.swift; sourceTree = "<group>"; };
+		CE45120527229A8D00783D45 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE493F29271D558A00EBA10A /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
 		CE493F2B271D72E000EBA10A /* FirebaseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseData.swift; sourceTree = "<group>"; };
 		CE4C8C56270ECFDD00751485 /* GestureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureViewController.swift; sourceTree = "<group>"; };
@@ -172,11 +172,11 @@
 		4A70A1061DC7F5D6005A4F69 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				CE36E8B9271EE3F100E0FCA8 /* MarkerDaten.csv */,
+				CE3E4CD127203ABA00DAE5D8 /* MarkerDaten.csv */,
 				4AC06DF21F73739100CCBEF6 /* hiro.patt */,
 				4AC06DF31F73739100CCBEF6 /* kanji.patt */,
 				4A70A0F41DC7F425005A4F69 /* Assets.xcassets */,
-				4A70A10B1DC7F773005A4F69 /* LaunchScreen.storyboard */,
+				CE45120527229A8D00783D45 /* LaunchScreen.storyboard */,
 				4A70A10C1DC7F773005A4F69 /* Main.storyboard */,
 				4A70A0F91DC7F425005A4F69 /* Info.plist */,
 				CE4CF05C2719785D000BF984 /* GoogleService-Info.plist */,
@@ -312,14 +312,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE3E4CD227203ABA00DAE5D8 /* MarkerDaten.csv in Resources */,
 				4A70A1181DC7FAA6005A4F69 /* ARX in Resources */,
+				CE45120627229A8D00783D45 /* LaunchScreen.storyboard in Resources */,
 				4AC06DF41F73739100CCBEF6 /* hiro.patt in Resources */,
 				4AC06DF51F73739100CCBEF6 /* kanji.patt in Resources */,
 				4A70A10F1DC7F773005A4F69 /* Main.storyboard in Resources */,
-				CE3E4CD02720263000DAE5D8 /* LaunchScreen.storyboard in Resources */,
 				4A70A0F51DC7F425005A4F69 /* Assets.xcassets in Resources */,
 				CE4CF05D2719785D000BF984 /* GoogleService-Info.plist in Resources */,
-				CE36E8BA271EE3F100E0FCA8 /* MarkerDaten.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

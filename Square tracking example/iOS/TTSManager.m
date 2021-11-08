@@ -96,9 +96,9 @@ void drawSetModel(int modelIndex, bool visible, float pose[16])
 }
 
 
-void sound(int markerCount)
+void sound()
 {
-   for (int i = 0; i < markerCount; i++) {
+   for (int i = 0; i < 10; i++) {
         if (gModelLoaded[i] && gModelVisbilities[i]) {
            // AudioServicesPlayAlertSound(kSystemSoundID_Vibrate); //wenn Sound ausgestellt ist am Iphone
             AudioServicesPlayAlertSound(1105);// Vibriert auch ohne die Zeile davor
@@ -108,7 +108,7 @@ void sound(int markerCount)
 
 void voice(int markerId, int markerCount, NSString *title)
 {
-    for (int i = 0; i < markerCount; i++) {
+    for (int i = 0; i < 10; i++) {
         if (gModelLoaded[i] && gModelVisbilities[i]) {
             
             if (markerId != currentMarkerId){
@@ -135,6 +135,7 @@ void voice(int markerId, int markerCount, NSString *title)
             }
         }
     }
+    
 }
 
 
